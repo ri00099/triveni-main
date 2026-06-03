@@ -1,0 +1,157 @@
+/* ==========================================
+   Base Layout Styling
+   ========================================== */
+
+.overlay-story-section {
+  position: relative;
+  width: 100%;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 80px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  z-index: 2;
+}
+
+.overlay-heading {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -1.5px;
+  margin-bottom: 60px;
+  text-align: center;
+}
+
+.text-gray {
+  color: #b2b2b2;
+  font-weight: 400;
+}
+
+.overlay-chevron-track {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-width: 1100px;
+  height: 480px; 
+  gap: 15px;     
+  margin-bottom: 60px;
+}
+
+.overlay-chevron-segment {
+  flex: 1;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%, 25% 50%);
+}
+
+.overlay-chevron-segment.first-segment {
+  clip-path: polygon(0% 0%, 75% 0%, 100% 50%, 75% 100%, 0% 100%);
+}
+
+.overlay-chevron-segment.last-segment {
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%, 25% 50%);
+}
+
+.overlay-chevron-segment img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.overlay-footer {
+  max-width: 800px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.footer-bold-text {
+  font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+  font-weight: 700;
+  color: #000000;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.footer-light-text {
+  font-size: clamp(1.2rem, 2.1vw, 1.65rem);
+  font-weight: 700;
+  color: #000000;
+  letter-spacing: -0.5px;
+}
+
+/* ==========================================
+   Animation States & Timings
+   ========================================== */
+
+/* Initial hidden/state before scrolling into view */
+.overlay-heading,
+.overlay-footer {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s cubic-bezier(0.215, 0.61, 0.355, 1),
+              transform 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+}
+
+.overlay-chevron-segment {
+  opacity: 0;
+  transform: translateY(50px) scale(0.95);
+  will-change: transform, opacity;
+  /* Use a cubic-bezier for a smooth cinematic snap entry */
+  transition: opacity 0.8s cubic-bezier(0.34, 1.56, 0.64, 1),
+              transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* Activated State via Intersection Observer */
+.overlay-story-section.animate-in .overlay-heading {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.overlay-story-section.animate-in .overlay-footer {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.6s; /* Waits for chevrons to finish before appearing */
+}
+
+.overlay-story-section.animate-in .overlay-chevron-segment {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  /* Dynamically sets staggered delay based on the inline CSS variable style="--index: X" */
+  transition-delay: calc(0.15s * var(--index) + 0.2s);
+}
+
+/* ==========================================
+   Responsive Viewports
+   ========================================== */
+
+@media (max-width: 900px) {
+  .overlay-chevron-track {
+    height: 360px;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 600px) {
+  .overlay-chevron-track {
+    height: auto;
+    flex-direction: column;
+    gap: 20px;
+  }
+  .overlay-chevron-segment, 
+  .overlay-chevron-segment.first-segment, 
+  .overlay-chevron-segment.last-segment {
+    clip-path: none; 
+    width: 100%;
+    height: 200px;
+    border-radius: 8px;
+    /* Speed up mobile animations for snappier mobile scrolling */
+    transition-delay: 0s !important; 
+  }
+}

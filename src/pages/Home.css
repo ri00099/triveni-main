@@ -1,0 +1,370 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.page-home {
+  width: 100%;
+  background: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", sans-serif;
+  overflow-x: hidden;
+}
+
+/* ==========================================================================
+   NAVIGATION BAR HEADER FIXED STYLING
+   ========================================================================== */
+.site-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo-img {
+  height: 52px;
+  width: auto;
+  object-fit: contain;
+}
+
+.header-inner {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+
+.logo {
+  font-size: 22px;
+  font-weight: 900;
+  letter-spacing: -0.05em;
+  color: #111111;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.nav-links a,
+.nav-dropdown {
+  font-size: 14px;
+  font-weight: 500;
+  color: #4b5563;
+  text-decoration: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav-links a:hover,
+.nav-dropdown:hover {
+  color: #111111;
+}
+
+.chevron {
+  font-size: 10px;
+  color: #9ca3af;
+}
+
+.btn-signin {
+  border: none;
+  background: #111111;
+  color: #ffffff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+/* ==========================================================================
+   PRODUCTION GRAPHICS MATRIX LAYOUT LAYER ARCHITECTURE
+   ========================================================================== */
+.hero {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background: #ffffff;
+}
+
+.sky-layer,
+.backdrop,
+.house-wrapper,
+.smoke-wrapper,
+.hero-overlay,
+.hero-mask-layer,
+.hero-content {
+  position: absolute;
+  inset: 0;
+}
+
+/* Layer 1: Ambient Backdrop Underlay Base Map */
+.sky-layer {
+  z-index: 1;
+}
+.sky-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layer 2: Main Panoramic City Environment Mapping */
+.backdrop {
+  z-index: 2;
+}
+.backdrop-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Layer 3: Main Architectural Real Estate Node Cutout */
+.house-wrapper {
+  position: absolute;
+  left: 45%;
+  bottom: -15%;
+  /* width: 62vw; */
+  top: auto;
+  transform: translateX(-50%);
+  width: 68vw;
+  max-width: 950px;
+  z-index: 3;
+  transform-origin: bottom center;
+}
+
+.house {
+  width: 100%;
+  height: auto;
+  display: block;
+  scale: 150%;
+}
+
+/* Layer 4: Deep Atmosphere Environmental Overlays */
+.smoke-wrapper {
+  position: absolute;
+  left: 50%;
+  bottom:-30%;
+  top: auto;
+  transform: translateX(-50%);
+  width: 90vw;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.smoke {
+  width: 100%;
+  display: block;
+  filter: blur(0.5px);
+}
+
+/* .hero-overlay {
+  z-index: 4;
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0) 35%,
+    rgba(255, 255, 255, 0.2) 65%,
+    rgba(255, 255, 255, 0.95) 100%
+  );
+  pointer-events: none;
+} */
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 55%,
+    rgba(255, 255, 255, 0.6) 75%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+/* Layer 5: Typography Interactive Component Framing */
+.hero-content {
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
+  padding-top: 18vh;
+  pointer-events: none;
+}
+
+.main-title {
+  font-size: clamp(32px, 7vw, 102px);
+  line-height: 1.02;
+  font-weight: 600;
+  letter-spacing: -0.04em;
+  color: #111111;
+  max-width: 900px;
+}
+
+.subtitle {
+  margin-top: 20px;
+  color: #212529;
+  font-size: clamp(16px, 1.4vw, 20px);
+  font-weight: 500;
+  max-width: 720px;
+  line-height: 1.5;
+}
+
+.subtitle span {
+  display: inline;
+  color: #6c757d;
+}
+
+.cta-wrap {
+  pointer-events: auto;
+}
+
+.hero-btn {
+  margin-top: 28px;
+  border: none;
+  padding: 14px 32px;
+  border-radius: 999px;
+  background: #111111;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.hero-btn:hover {
+  background: #000000;
+  transform: scale(1.02);
+}
+
+/* Layer 6: Dynamic Typographic Clipping Geometric Layout View */
+.hero-mask-layer {
+  z-index: 6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  pointer-events: none;
+}
+
+.mask-svg {
+  width: 100%;
+  height: 100%;
+}
+
+.mask-text-fill {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(280px, 22vw, 440px);
+  font-weight: 900;
+  letter-spacing: -0.04em;
+  will-change: fill, stroke, stroke-width;
+}
+
+.mask-text-sub {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: clamp(64px, 4.5vw, 100px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  fill: #82a7b6;
+}
+
+/* Layer 7: Transition Overlay Section Container */
+.discover-overlay-section {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.discover-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 80px;
+  display: flex;
+  gap: 40px;
+}
+
+.discover-left {
+  flex: 0 0 25%;
+}
+.discover-label {
+  font-size: clamp(16px, 1.2vw, 20px);
+  font-weight: 700;
+  color: #111111;
+}
+
+.discover-right {
+  flex: 0 0 75%;
+}
+.discover-title {
+  font-size: clamp(30px, 3.6vw, 54px);
+  font-weight: 700;
+  line-height: 1.18;
+  letter-spacing: -0.03em;
+  color: #111111;
+  max-width: 960px;
+}
+
+.discover-title .gray-text {
+  color: #9ca3af;
+}
+
+/* ==========================================================================
+   RESPONSIVE LAYOUT CONSTRAINTS
+   ========================================================================== */
+@media (max-width: 1024px) {
+  .nav-links {
+    display: none;
+  }
+  .house-wrapper {
+    width: 92vw;
+  }
+  .discover-container {
+    padding: 0 40px;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-content {
+    padding-top: 15vh;
+  }
+  .main-title {
+    font-size: clamp(34px, 9vw, 60px);
+  }
+  .mask-text-fill {
+    font-size: clamp(180px, 24vw, 260px);
+  }
+  .house-wrapper {
+    width: 105vw;
+  }
+}
