@@ -23,98 +23,93 @@ const TriveniProcessSection = () => {
     },
   ];
 
-  // Animation variants for the container (stagger effect)
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.1,
+        staggerChildren: 0.08,
       },
     },
   };
 
-  // Animation variants for individual elements lifting up
   const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
+    hidden: { opacity: 0, y: 15 },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.8,
-        ease: [0.16, 1, 0.3, 1],
+        duration: 0.55,
+        ease: [0.215, 0.61, 0.355, 1],
       },
     },
   };
 
   return (
-    <section className="bg-white min-h-screen flex items-center justify-center px-6 py-16 md:px-16 lg:px-24 font-sans selection:bg-gray-200 overflow-hidden">
+    <section className="bg-white min-h-screen flex items-center justify-center px-6 py-16 md:px-12 lg:px-20 font-sans selection:bg-gray-100 antialiased">
       <motion.div
-        className="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-start"
+        className="max-w-[1300px] w-full grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start"
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
         variants={containerVariants}
       >
         {/* Left Column: Hero Typography & CTA */}
-        <div className="lg:col-span-5 flex flex-col justify-between h-full">
-          <div>
-            <motion.h1
-              variants={itemVariants}
-              className="text-[52px] sm:text-[64px] md:text-[72px] font-medium tracking-tight text-black leading-[1.05] mb-8"
-            >
-              Crafted In
-              <span className="block text-gray-400 font-light">
-                Stone & Tile.
-              </span>
-            </motion.h1>
+        <div className="lg:col-span-5 flex flex-col items-start space-y-7">
+          <motion.h1
+            variants={itemVariants}
+            className="text-[44px] sm:text-[56px] md:text-[64px] font-medium tracking-tight text-[#111111] leading-[1.05]"
+          >
+            Crafted In,
+            <span className="block text-[#b3b3b3] font-normal">
+              Stone & Tile.
+            </span>
+          </motion.h1>
 
-            <motion.div variants={itemVariants}>
-              <button className="inline-flex items-center gap-3 bg-[#111111] hover:bg-black text-white text-sm font-medium tracking-wide py-3.5 px-6 rounded-full transition-all duration-300 group shadow-sm hover:shadow-md">
-                Explore Collection
-                <svg
-                  className="w-4 h-4 transform transition-transform duration-300 group-hover:translate-x-1.5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M14 5l7 7m0 0l-7 7m7-7H3"
-                  />
-                </svg>
-              </button>
-            </motion.div>
-          </div>
+          <motion.div variants={itemVariants}>
+            <button className="inline-flex items-center gap-2.5 bg-[#111111] hover:bg-black text-white text-[13px] font-medium tracking-tight py-2.5 px-40 rounded-full transition-all duration-200 group">
+              Explore Collection
+              <svg
+                className="w-3.5 h-3.5 transform transition-transform duration-200 group-hover:translate-x-0.5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M14 5l7 7m0 0l-7 7m7-7H3"
+                />
+              </svg>
+            </button>
+          </motion.div>
         </div>
 
         {/* Right Column: Steps Timeline */}
-        <div className="lg:col-span-7 lg:pl-12 w-full">
+        <div className="lg:col-span-7 w-full flex flex-col pt-1">
           <motion.h2
             variants={itemVariants}
-            className="text-xl font-semibold text-black tracking-tight mb-6"
+            className="text-[20px] font-medium text-[#111111] tracking-tight mb-5"
           >
-            Our Process
+            Steps:
           </motion.h2>
 
-          <div className="flex flex-col">
+          <div className="flex flex-col gap-5 border-t border-[#ededed]">
             {steps.map((step) => (
               <motion.div
                 key={step.id}
                 variants={itemVariants}
-                className="flex items-start border-t border-gray-100 py-7 md:py-9 first:border-t-2 group/item"
+                className="flex items-start border-b border-[#ededed] py-7 sm:py-9"
               >
                 {/* Step Number */}
-                <span className="text-sm font-semibold text-gray-400 group-hover/item:text-black transition-colors duration-300 tracking-wider w-12 sm:w-16 pt-1.5 shrink-0">
+                <span className="text-[12px] font-normal text-[#b3b3b3] w-12 sm:w-16 pt-2.5 shrink-0 block architecture-num">
                   {step.id}
                 </span>
 
                 {/* Step Content */}
-                <p className="text-2xl sm:text-[28px] md:text-[32px] leading-[1.25] tracking-tight text-gray-400 font-normal transition-colors duration-300">
-                  <span className="text-black font-semibold mr-2">
+                <p className="text-[24px] sm:text-[28px] md:text-[32px] leading-[1.2] tracking-tight text-[#b3b3b3] font-normal">
+                  <span className="text-[#111111] font-medium mr-1.5">
                     {step.title}
                   </span>
                   {step.description}

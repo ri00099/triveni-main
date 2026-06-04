@@ -2,16 +2,18 @@ import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import "./Home.css";
-import logo from "../assets/logoTriveni.png";
-import backImg from "../assets/back.jpg";
-import houseImg from "../assets/house.webp";
-import cloudImg from "../assets/cloud.png";
-import smokeImg from "../assets/smoke.png";
+import logo        from "../assets/logoTriveni.png";
+import backImg     from "../assets/back.jpg";
+import houseImg    from "../assets/house.webp";
+import cloudImg    from "../assets/cloud.png";
+import smokeImg    from "../assets/smoke.png";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const skyImg =
   "https://images.unsplash.com/photo-1513002749550-c59d786b8e6c?auto=format&fit=crop&w=1920&q=80";
+
+const LETTERS = ["T","R","I","V","E","N","I"];
 
 export default function Home() {
   const containerRef = useRef(null);
@@ -21,7 +23,10 @@ export default function Home() {
   const titleRef     = useRef(null);
   const subtitleRef  = useRef(null);
   const ctaRef       = useRef(null);
-  const maskRef      = useRef(null);
+
+  const maskOutlineRef = useRef(null);
+  const maskFilledRef  = useRef(null);
+
   const whiteOverlay = useRef(null);
   const discoverRef  = useRef(null);
 
@@ -30,86 +35,131 @@ export default function Home() {
   const cl3 = useRef(null);
   const cl4 = useRef(null);
 
-  const lT  = useRef(null);
-  const lR  = useRef(null);
-  const lI1 = useRef(null);
-  const lV  = useRef(null);
-  const lE  = useRef(null);
-  const lN  = useRef(null);
-  const lI2 = useRef(null);
+  const outlineLetterRefs = useRef(LETTERS.map(() => null));
+  const filledLetterRefs  = useRef(LETTERS.map(() => null));
+
+  const subRef = useRef(null);
 
   useEffect(() => {
     if (!heroRef.current) return;
 
-    ScrollTrigger.normalizeScroll(true);
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouch) ScrollTrigger.normalizeScroll(true);
 
     const ctx = gsap.context(() => {
-      const allLetters = [lT.current, lR.current, lI1.current, lV.current, lE.current, lN.current, lI2.current];
-      const allClouds  = [cl1.current, cl2.current, cl3.current, cl4.current];
+      const outlineLetters = outlineLetterRefs.current;
+      const filledLetters  = filledLetterRefs.current;
+      const heroClouds = [cl1.current, cl2.current, cl3.current, cl4.current];
 
-      gsap.to(cl1.current, { x:  30, duration: 12, ease: "sine.inOut", repeat: -1, yoyo: true });
-      gsap.to(cl2.current, { x: -35, duration: 15, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 1.5 });
-      gsap.to(cl3.current, { x:  25, duration: 18, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 0.8 });
-      gsap.to(cl4.current, { x: -20, duration: 11, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 2.5 });
+      gsap.to(cl1.current, { x:  28, duration: 12, ease: "sine.inOut", repeat: -1, yoyo: true });
+      gsap.to(cl2.current, { x: -32, duration: 15, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 1.5 });
+      gsap.to(cl3.current, { x:  22, duration: 18, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 0.8 });
+      gsap.to(cl4.current, { x: -18, duration: 11, ease: "sine.inOut", repeat: -1, yoyo: true, delay: 2.5 });
 
-      gsap.set(backdropRef.current,  { autoAlpha: 1, scale: 1, y: 0 });
-      gsap.set(houseRef.current,     { xPercent: -50, y: "42vh", scale: 1, autoAlpha: 1 });
-      gsap.set(titleRef.current,     { y: 0, autoAlpha: 1 });
-      gsap.set(subtitleRef.current,  { y: 0, autoAlpha: 1 });
-      gsap.set(ctaRef.current,       { y: 0, autoAlpha: 1 });
-      gsap.set(maskRef.current,      { autoAlpha: 0 });
-      gsap.set(allLetters,           { autoAlpha: 0, y: 60 });
-      gsap.set(allClouds,            { autoAlpha: 0 });
-      gsap.set(whiteOverlay.current, { autoAlpha: 0 });
-      gsap.set(discoverRef.current,  { y: "100vh", autoAlpha: 0 });
+      gsap.set(backdropRef.current,   { autoAlpha: 1, scale: 1, y: 0 });
+      gsap.set(houseRef.current,      { xPercent: -50, y: "30vh", scale: 0.95, autoAlpha: 1 });
+      gsap.set(titleRef.current,      { y: 0, autoAlpha: 1 });
+      gsap.set(subtitleRef.current,   { y: 0, autoAlpha: 1 });
+      gsap.set(ctaRef.current,        { y: 0, autoAlpha: 1 });
+      gsap.set(maskOutlineRef.current,{ autoAlpha: 0 });
+      gsap.set(maskFilledRef.current, { autoAlpha: 0 });
+      gsap.set(heroClouds,            { autoAlpha: 0 });
+      gsap.set(whiteOverlay.current,  { autoAlpha: 0 });
+      gsap.set(discoverRef.current,   { y: "100vh", autoAlpha: 0 });
+      gsap.set(subRef.current,        { autoAlpha: 0, y: 20 });
+
+      outlineLetters.forEach(l => gsap.set(l, { autoAlpha: 0, y: 18, scale: 0.88 }));
+      filledLetters.forEach(l  => gsap.set(l, { autoAlpha: 0 }));
 
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: heroRef.current,
           start:   "top top",
-          end:     "+=500%",
+          end:     "+=400%",
           pin:     true,
-          scrub:   2,
-          anticipatePin: 1,
+          scrub:   1.2,
+          anticipatePin:       1,
+          invalidateOnRefresh: true,
+          fastScrollEnd:       true,
         },
         defaults: { ease: "none" },
       });
 
+      // PHASE 1
       tl
-        .to(titleRef.current,    { y: "38vh", autoAlpha: 0, duration: 2.0, ease: "power1.in" }, 0)
-        .to(subtitleRef.current, { y: "46vh", autoAlpha: 0, duration: 2.0, ease: "power1.in" }, 0.12)
-        .to(ctaRef.current,      { y: "54vh", autoAlpha: 0, duration: 2.0, ease: "power1.in" }, 0.24)
-        .to(houseRef.current,    { y: "-6vh", scale: 1.15, duration: 4.5, ease: "power1.inOut" }, 0)
-        .to(backdropRef.current, { scale: 1.08, y: "-6vh", duration: 4.5 }, 0)
+        .to(titleRef.current,    { y: "30vh", autoAlpha: 0, duration: 1.8, ease: "power2.in" }, 0)
+        .to(subtitleRef.current, { y: "36vh", autoAlpha: 0, duration: 1.8, ease: "power2.in" }, 0.18)
+        .to(ctaRef.current,      { y: "42vh", autoAlpha: 0, duration: 1.8, ease: "power2.in" }, 0.34)
+        .to(houseRef.current,    { y: "-4vh", scale: 1.12, duration: 4.2, ease: "power1.inOut" }, 0)
+        .to(backdropRef.current, { scale: 1.06, y: "-3vh", duration: 4.2, ease: "power1.inOut" }, 0)
 
-        .to(cl1.current, { autoAlpha: 0.9, duration: 1.4, ease: "power1.out" }, 1.6)
-        .to(cl2.current, { autoAlpha: 0.9, duration: 1.4, ease: "power1.out" }, 1.75)
-        .to(cl3.current, { autoAlpha: 0.7, duration: 1.4, ease: "power1.out" }, 1.9)
-        .to(cl4.current, { autoAlpha: 0.7, duration: 1.4, ease: "power1.out" }, 2.05)
+      // PHASE 2
+        .to(cl1.current,          { autoAlpha: 0.85, duration: 1.2, ease: "power1.out" }, 1.8)
+        .to(cl2.current,          { autoAlpha: 0.85, duration: 1.2, ease: "power1.out" }, 2.0)
+        .to(cl3.current,          { autoAlpha: 0.65, duration: 1.2, ease: "power1.out" }, 2.15)
+        .to(cl4.current,          { autoAlpha: 0.65, duration: 1.2, ease: "power1.out" }, 2.28)
+        .to(whiteOverlay.current, { autoAlpha: 0.88, duration: 2.2, ease: "power1.inOut" }, 1.9)
 
-        .to(whiteOverlay.current, { autoAlpha: 0.88, duration: 2.5, ease: "power1.inOut" }, 1.8)
+      // PHASE 3A — OUTLINE
+        .to(maskOutlineRef.current, { autoAlpha: 1, duration: 0.25 }, 3.4);
 
-        .to(maskRef.current, { autoAlpha: 1, duration: 0.35 }, 3.6)
-        .to(lT.current,  { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 3.75)
-        .to(lR.current,  { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 3.93)
-        .to(lI1.current, { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 4.10)
-        .to(lV.current,  { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 4.26)
-        .to(lE.current,  { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 4.41)
-        .to(lN.current,  { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 4.55)
-        .to(lI2.current, { autoAlpha: 1, y: 0, duration: 0.55, ease: "back.out(1.3)" }, 4.68)
+      const OUTLINE_START = 3.5;
+      const OUTLINE_GAP   = 0.22;
 
-        .to(maskRef.current,      { autoAlpha: 0, duration: 0.9 },                         5.8)
-        .to(allClouds,            { autoAlpha: 0, duration: 0.9 },                         5.9)
-        .to(whiteOverlay.current, { autoAlpha: 0, duration: 0.8 },                         5.8)
-        .to(houseRef.current,     { y: "-38vh", scale: 1.45, autoAlpha: 0, duration: 1.2 }, 5.8)
-        .to(backdropRef.current,  { autoAlpha: 0, duration: 1.0 },                         5.8)
-        .to(discoverRef.current,  { y: "0vh", autoAlpha: 1, duration: 2.0, ease: "power2.out" }, 6.2);
+      LETTERS.forEach((_, i) => {
+        const t = OUTLINE_START + i * OUTLINE_GAP;
+        tl.to(outlineLetters[i], {
+          autoAlpha: 1,
+          y: 0,
+          scale: 1,
+          duration: 0.55,
+          ease: "power3.out",
+        }, t);
+      });
+
+      const outlineDone = OUTLINE_START + (LETTERS.length - 1) * OUTLINE_GAP + 0.55;
+
+      // PHASE 3B — CROSSFADE TO FILLED
+      const xfadeStart = outlineDone + 0.5;
+
+      tl
+        .to(whiteOverlay.current, { autoAlpha: 0, duration: 1.6, ease: "power2.inOut" }, xfadeStart)
+        .to(cl1.current,          { autoAlpha: 0, duration: 1.2, ease: "power1.inOut" }, xfadeStart + 0.1)
+        .to(cl2.current,          { autoAlpha: 0, duration: 1.2, ease: "power1.inOut" }, xfadeStart + 0.2)
+        .to(cl3.current,          { autoAlpha: 0, duration: 1.2, ease: "power1.inOut" }, xfadeStart + 0.3)
+        .to(cl4.current,          { autoAlpha: 0, duration: 1.2, ease: "power1.inOut" }, xfadeStart + 0.4)
+        .to(maskFilledRef.current, { autoAlpha: 1, duration: 1.0, ease: "power2.inOut" }, xfadeStart + 0.2);
+
+      LETTERS.forEach((_, i) => {
+        const t = xfadeStart + 0.3 + i * 0.08;
+        tl.to(outlineLetters[i], { autoAlpha: 0, duration: 0.5, ease: "power1.in"  }, t);
+        tl.to(filledLetters[i],  { autoAlpha: 1, duration: 0.6, ease: "power2.out" }, t + 0.1);
+      });
+
+      const filledDone = xfadeStart + 0.3 + (LETTERS.length - 1) * 0.08 + 0.7;
+      tl.to(subRef.current, {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.5,
+        ease: "power2.out",
+      }, filledDone + 0.1);
+
+      // PHASE 4 — EXIT + DISCOVER
+      // const exitStart = filledDone + 1.0;
+      const exitStart = filledDone + 0.3;
+
+      tl
+        .to(maskOutlineRef.current, { autoAlpha: 0, duration: 0.6 },                         exitStart)
+        .to(maskFilledRef.current,  { autoAlpha: 0, duration: 0.6 },                         exitStart)
+        .to(houseRef.current,    { y: "-32vh", scale: 1.4, autoAlpha: 0, duration: 1.1, ease: "power1.in" }, exitStart)
+        .to(backdropRef.current, { autoAlpha: 0, scale: 1.1,             duration: 0.9, ease: "power1.in" }, exitStart + 0.05)
+        .to(discoverRef.current, { y: 0, autoAlpha: 1,                   duration: 1.2, ease: "power3.out" }, exitStart + 0.6);
 
     }, containerRef);
 
     return () => {
       ctx.revert();
-      ScrollTrigger.normalizeScroll(false);
+      if (isTouch) ScrollTrigger.normalizeScroll(false);
     };
   }, []);
 
@@ -150,7 +200,7 @@ export default function Home() {
           <img src={houseImg} alt="Triveni building" className="house" />
         </div>
 
-        {/* Layer 4 — Bottom clouds */}
+        {/* Layer 4 — Hero bottom clouds */}
         <div className="cloud-cover-stage">
           <img ref={cl1} src={smokeImg} alt="" className="cloud-bottom cb1" />
           <img ref={cl2} src={smokeImg} alt="" className="cloud-bottom cb2" />
@@ -158,7 +208,7 @@ export default function Home() {
           <img ref={cl4} src={cloudImg} alt="" className="cloud-bottom cb4" />
         </div>
 
-        {/* Layer 5 — White fade overlay */}
+        {/* Layer 5 — White mist veil */}
         <div ref={whiteOverlay} className="white-overlay" />
 
         {/* Layer 6 — Bottom vignette */}
@@ -178,39 +228,70 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Layer 8 — TRIVENI letters */}
-        <div ref={maskRef} className="hero-mask-layer">
+        {/* PHASE A — OUTLINE LETTERS */}
+        <div ref={maskOutlineRef} className="hero-mask-layer hero-mask-outline">
           <div className="find-word">
-            <span ref={lT}  className="find-letter">T</span>
-            <span ref={lR}  className="find-letter">R</span>
-            <span ref={lI1} className="find-letter">I</span>
-            <span ref={lV}  className="find-letter">V</span>
-            <span ref={lE}  className="find-letter">E</span>
-            <span ref={lN}  className="find-letter">N</span>
-            <span ref={lI2} className="find-letter">I</span>
+            {LETTERS.map((char, i) => (
+              <div key={i} className="letter-cell">
+                <span
+                  className="find-letter find-letter--outline"
+                  ref={el => outlineLetterRefs.current[i] = el}
+                >
+                  {char}
+                </span>
+              </div>
+            ))}
           </div>
-          <p className="find-sub">
+        </div>
+
+        {/* PHASE B — BUILDING-FILLED LETTERS */}
+        <div ref={maskFilledRef} className="hero-mask-layer hero-mask-filled">
+          <div className="find-word">
+            {LETTERS.map((char, i) => (
+              <div key={i} className="letter-cell">
+                <span
+                  className="find-letter find-letter--filled"
+                  ref={el => filledLetterRefs.current[i] = el}
+                >
+                  {char}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* Gold shimmer tagline */}
+          <p className="find-sub" ref={subRef}>
             <span className="find-sub-the">The</span> Granite &amp; Tiles
           </p>
         </div>
 
-        {/* Layer 9 — Discover */}
+        {/* Layer 9 — Discover section */}
         <div ref={discoverRef} className="discover-overlay-section">
 
-          {/* Cloud background layers */}
-          <div className="discover-sky"></div>
+          {/* ── Big fluffy clouds above the discover content ── */}
+          <div className="discover-top-clouds">
+            <div className="dtc dtc1" />
+            <div className="dtc dtc2" />
+            <div className="dtc dtc3" />
+            <div className="dtc dtc4" />
+            <div className="dtc dtc5" />
+            <div className="dtc dtc6" />
+          </div>
+
+          <div className="discover-sky" />
+
           <div className="discover-clouds">
-            <div className="dc dc1"></div>
-            <div className="dc dc2"></div>
-            <div className="dc dc3"></div>
-            <div className="dc dc4"></div>
-            <div className="dc dc5"></div>
-            <div className="dc dc6"></div>
-            <div className="dc dc7"></div>
-            <div className="dc dc8"></div>
-            <div className="dc dc9"></div>
-            <div className="dc dc10"></div>
-            <div className="dc dc11"></div>
+            <div className="dc dc1" />
+            <div className="dc dc2" />
+            <div className="dc dc3" />
+            <div className="dc dc4" />
+            <div className="dc dc5" />
+            <div className="dc dc6" />
+            <div className="dc dc7" />
+            <div className="dc dc8" />
+            <div className="dc dc9" />
+            <div className="dc dc10" />
+            <div className="dc dc11" />
           </div>
 
           <div className="discover-container">
@@ -220,8 +301,11 @@ export default function Home() {
             <div className="discover-right">
               <h2 className="discover-title">
                 Transform ordinary spaces into timeless masterpieces.
-                <span className="gray-text"> Premium granite, luxury tiles, and expert craftsmanship that
-                bring elegance, durability, and value to every residential and commercial project.</span>
+                <span className="gray-text">
+                  {" "}Premium granite, luxury tiles, and expert craftsmanship
+                  that bring elegance, durability, and value to every
+                  residential and commercial project.
+                </span>
               </h2>
             </div>
           </div>
