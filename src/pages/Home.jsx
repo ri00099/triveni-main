@@ -6,7 +6,7 @@ import logo from "../assets/logoTriveni.png"
 
 // Assets
 import backImg from "../assets/back.jpg";
-import houseImg from "../assets/buildingTriveni.png";
+import houseImg from "../assets/house.webp";
 import smokeImg from "../assets/smoke.png";
 
 const skyImg =
